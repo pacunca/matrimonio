@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a365d">
+    <meta name="description" content="Guía diaria para fortalecer tu matrimonio">
+    <title>Salvando el Matrimonio</title>
+    <link rel="manifest" href="#" id="manifest-placeholder">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #66756e 0%, #627a72 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .setup-screen, .main-content {
+            padding: 30px 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #51767a 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .day-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .phase-indicator {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            font-size: 48px;
+        }
+        
+        .phase-green {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        
+        .phase-yellow {
+            background: linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%);
+        }
+        
+        .phase-red {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+        
+        .info-card {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .info-card h3 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .info-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .verse-card {
+            background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+            border-left: 4px solid #d4af37;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        
+        .verse-card p {
+            color: #5a4a2a;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .btn-attention {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .btn-attention:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: #e2e8f0;
+            color: #2d3748;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #718096;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .install-steps {
+            margin-top: 20px;
+        }
+        
+        .install-step {
+            background: #f7fafc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .install-step h4 {
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+        
+        .install-step ol {
+            margin-left: 20px;
+            color: #4a5568;
+        }
+        
+        .install-step li {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+            font-size: 11px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .congrats {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .congrats h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .moon-phase {
+            font-size: 64px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💑 Salvando el Matrimonio</h1>
+            <p>Guía diaria para fortalecer tu relación</p>
+        </div>
+        
+        <!-- Pantalla de configuración -->
+        <div id="setupScreen" class="setup-screen">
+            <div class="input-group">
+                <label for="periodDate">Fecha del último período:</label>
+                <input type="date" id="periodDate" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="cycleLength">Duración del ciclo (días):</label>
+                <input type="number" id="cycleLength" value="28" min="21" max="35" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="periodLength">Duración del período (días):</label>
+                <input type="number" id="periodLength" value="5" min="3" max="7" required>
+            </div>
+            
+            <button class="btn" onclick="startTracking()">Comenzar</button>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div id="mainContent" class="main-content hidden">
+            <div style="text-align: center;">
+                <span class="day-badge" id="dayBadge">Día X</span>
+            </div>
+            
+            <div class="phase-indicator" id="phaseIndicator">
+                <div class="moon-phase" id="moonPhase">🌙</div>
+                <div style="font-size: 16px; color: white; font-weight: 600;" id="phaseName">Fase</div>
+            </div>
+            
+            <div class="info-card">
+                <h3>📊 Estado de ella:</h3>
+                <p id="herState"></p>
+            </div>
+            
+            <div class="info-card">
+                <h3>✅ Acción del día:</h3>
+                <p id="actionDay"></p>
+            </div>
+            
+            <div class="info-card">
+                <h3>💪 Tu Autocuidado:</h3>
+                <p id="selfCare"></p>
+            </div>
+            
+            <div class="verse-card">
+                <h3>📖 Sabiduría de Yahveh:</h3>
+                <p id="verse"></p>
+            </div>
+            
+            <button class="btn-attention" onclick="showAttention()">⚠️ Atención</button>
+            <button class="btn-secondary" onclick="showInstallGuide()">📱 Cómo instalar esta PWA</button>
+            <button class="btn-secondary" onclick="resetCycle()">🔄 Reiniciar Ciclo</button>
+        </div>
+        
+        <div class="footer">
+            Desarrollado por J.L. Ovalles
+        </div>
+    </div>
+    
+    <!-- Modal de Atención -->
+    <div id="attentionModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('attentionModal')">×</button>
+            <h2 style="color: #e53e3e; margin-bottom: 20px;">⚠️ Días Críticos Próximos</h2>
+            <div id="attentionContent"></div>
+        </div>
+    </div>
+    
+    <!-- Modal de Instalación -->
+    <div id="installModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('installModal')">×</button>
+            <h2 style="color: #667eea; margin-bottom: 20px;">📱 Cómo Instalar</h2>
+            <div class="install-steps">
+                <div class="install-step">
+                    <h4>📱 iPhone / iPad (Safari)</h4>
+                    <ol>
+                        <li>Abre esta página en Safari</li>
+                        <li>Toca el botón de "Compartir" (cuadro con flecha hacia arriba)</li>
+                        <li>Desplázate y selecciona "Añadir a pantalla de inicio"</li>
+                        <li>Toca "Añadir" en la esquina superior derecha</li>
+                    </ol>
+                </div>
+                
+                <div class="install-step">
+                    <h4>📱 Android (Chrome)</h4>
+                    <ol>
+                        <li>Abre esta página en Chrome</li>
+                        <li>Toca el menú (tres puntos) en la esquina superior derecha</li>
+                        <li>Selecciona "Añadir a pantalla de inicio" o "Instalar app"</li>
+                        <li>Confirma tocando "Añadir" o "Instalar"</li>
+                    </ol>
+                </div>
+                
+                <div class="install-step">
+                    <h4>💻 PC / Mac (Chrome/Edge)</h4>
+                    <ol>
+                        <li>Abre esta página en Chrome o Edge</li>
+                        <li>Busca el ícono de instalación en la barra de direcciones</li>
+                        <li>Haz clic en "Instalar" cuando aparezca el mensaje</li>
+                        <li>La app se abrirá en su propia ventana</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del ciclo por día
+        const cycleData = {
+            1: {
+                state: "Caída brusca de estrógenos y progesterona. El cuerpo está en proceso de limpieza física. Fatiga y dolor lumbar comunes.",
+                action: "Cero preguntas complicadas. No es el día para 'hablar de lo nuestro'. Solo sirve, provee y mantén el silencio.",
+                selfCare: "Ve al gimnasio. Descarga tu energía ahí para que llegues a casa con la paciencia de un roble.",
+                verse: "El que es paciente muestra gran prudencia; el que es impulsivo exalta su locura. (Proverbios 14:29)",
+                phase: "Menstrual"
+            },
+            2: {
+                state: "La inflamación física está en su pico. Su cerebro está programado para detectar cualquier tono de voz negativo.",
+                action: "Sé el hombre que resuelve problemas logísticos (comida, orden). Tu lenguaje corporal debe ser de paz.",
+                selfCare: "Camina 20 minutos al aire libre. Necesitas aire fresco para no reaccionar a su irritabilidad.",
+                verse: "Una respuesta blanda aplaca la ira, pero una palabra hiriente aumenta el furor. (Proverbios 15:1)",
+                phase: "Menstrual"
+            },
+            3: {
+                state: "Los niveles hormonales siguen en el suelo. Cansancio acumulado.",
+                action: "No pidas atención. Hoy te toca a ti darla sin esperar nada a cambio. Un mensaje corto: '¿Necesitas algo de la tienda?' es suficiente.",
+                selfCare: "Lee algo que te instruya. Mantén tu mente ocupada en tu crecimiento personal.",
+                verse: "Sobre todo, tened entre vosotros un ferviente amor, porque el amor cubre multitud de pecados. (1 Pedro 4:8)",
+                phase: "Menstrual"
+            },
+            4: {
+                state: "Los estrógenos comienzan a subir levemente. Empieza a asomar la luz al final del túnel.",
+                action: "Mantén el perfil bajo pero estate presente. Si ella inicia la conversación, escucha sin interrumpir con soluciones.",
+                selfCare: "Acuéstate temprano. Recupera tus horas de sueño para estar alerta mañana.",
+                verse: "Sea cada uno pronto para oír, tardo para hablar, tardo para la ira. (Santiago 1:19)",
+                phase: "Menstrual"
+            },
+            5: {
+                state: "El malestar físico cede. Su energía empieza a subir.",
+                action: "Haz un cumplido sincero sobre su fortaleza. Empieza a proponer planes ligeros para el fin de semana.",
+                selfCare: "Realiza una actividad que te apasione. Un hombre con propósito es un hombre que no se deja afectar por nimiedades.",
+                verse: "Las palabras amables son como un panal de miel: dulzura para el alma y salud para el cuerpo. (Proverbios 16:24)",
+                phase: "Menstrual"
+            },
+            6: {
+                state: "Fase folicular. El cerebro empieza a ser más optimista.",
+                action: "¡Es el momento de la acción! Sé divertido, saca un tema de conversación interesante. Ella está más receptiva.",
+                selfCare: "Hoy es un buen día para un entrenamiento intenso. Tu testosterona debe estar a la par de su nueva energía.",
+                verse: "Como el hierro se afila con el hierro, así un hombre se aguza en el trato con su prójimo. (Proverbios 27:17)",
+                phase: "Folicular"
+            },
+            7: {
+                state: "Los estrógenos suben con fuerza. Mayor claridad mental y deseo de socializar.",
+                action: "Propón una meta común. Es el mejor día para planificar finanzas o proyectos del hogar. Te escuchará con lógica.",
+                selfCare: "Medita en silencio 10 minutos sobre tus bendiciones. Agradece a Yahveh por la paz en tu casa.",
+                verse: "Si Yahveh no edifica la casa, en vano trabajan los que la edifican. (Salmo 127:1)",
+                phase: "Folicular"
+            },
+            8: {
+                state: "Los estrógenos están en ascenso constante. Su piel, cabello y ánimo mejoran notablemente.",
+                action: "Sé proactivo. Sorpréndela con algo que ella no tenga que pedir. Es el momento de liderar con el ejemplo.",
+                selfCare: "Mantén tu postura erguida y tu presencia firme. Tu confianza es atractiva ahora más que nunca.",
+                verse: "El hombre que halla esposa halla el bien, y alcanza la benevolencia de Yahveh. (Proverbios 18:22)",
+                phase: "Folicular"
+            },
+            9: {
+                state: "Fase de alta capacidad verbal. Ella puede expresar lo que siente con mucha precisión hoy.",
+                action: "Pregúntale qué piensa sobre ese proyecto que tienen juntos. Escúchala; hoy su lógica está en su punto más alto.",
+                selfCare: "Dedica tiempo a un hobby que requiera enfoque. Mantener tu mente afilada te hace un mejor compañero.",
+                verse: "El corazón del hombre traza su camino, pero Yahveh dirige sus pasos. (Proverbios 16:9)",
+                phase: "Folicular"
+            },
+            10: {
+                state: "La testosterona empieza a subir ligeramente junto con los estrógenos. Aumenta su deseo de conexión física.",
+                action: "Sé afectuoso físicamente sin necesariamente buscar algo más. Un abrazo largo o tomar su mano refuerza la seguridad emocional.",
+                selfCare: "Entrena fuerza. Sincroniza tu energía física con su pico de vitalidad.",
+                verse: "El amor sea sin fingimiento. Aborreced lo malo, seguid lo bueno. (Romanos 12:9)",
+                phase: "Folicular"
+            },
+            11: {
+                state: "Se siente segura y con ganas de brillar. Es el mejor día del mes para eventos sociales o visitas familiares.",
+                action: "Salgan de la rutina. Si hay algo que celebrar o alguien a quien visitar, hazlo hoy. Ella disfrutará ser el centro de tu atención.",
+                selfCare: "Cuida tu apariencia. Refleja el orden y la disciplina que llevas por dentro.",
+                verse: "El corazón alegre hermosea el rostro; pero por el dolor del corazón el espíritu se abate. (Proverbios 15:13)",
+                phase: "Ovulatoria"
+            },
+            12: {
+                state: "Máxima fertilidad y máximo carisma. Su instinto biológico busca seguridad y protección en el hombre.",
+                action: "Dile cuánto la valoras y por qué es importante en tu vida. Sé el hombre que ella admira. La conexión hoy es la inversión para los días difíciles.",
+                selfCare: "Medita en tu rol como cabeza del hogar. Pide sabiduría a Yahveh para liderar con amor.",
+                verse: "Maridos, amad a vuestras mujeres, así como Cristo amó a la iglesia, y se entregó a sí mismo por ella. (Efesios 5:25)",
+                phase: "Ovulatoria"
+            },
+            13: {
+                state: "Las hormonas han llegado al pico y empiezan a estabilizarse antes de cambiar. El ánimo sigue alto pero empieza el cansancio.",
+                action: "Mantén el romance pero baja un poco la intensidad de las actividades sociales. Una noche tranquila en casa es ideal.",
+                selfCare: "Revisa tus metas semanales. Mantener el orden en tu vida personal te da la paz necesaria para el hogar.",
+                verse: "Todo lo puedo en aquel que me fortalece. (Filipenses 4:13)",
+                phase: "Ovulatoria"
+            },
+            14: {
+                state: "Transición hacia la fase lútea. Es un día de calma antes de que la progesterona tome el mando.",
+                action: "Disfruta de la paz. No busques problemas donde no los hay. Sé un puerto seguro.",
+                selfCare: "Camina en silencio al atardecer. Conecta con la creación de Yahveh y agradece por la semana de paz.",
+                verse: "La paz os dejo, mi paz os doy; yo no os la doy como el mundo la da. (Juan 14:27)",
+                phase: "Ovulatoria"
+            },
+            15: {
+                state: "Cambio de estrógenos a progesterona. Puede empezar a sentirse más cansada o con necesidad de estar en casa.",
+                action: "No fuerces salidas sociales si ella no quiere. Tu casa debe empezar a ser su refugio. Menos ruido, más paz.",
+                selfCare: "Revisa tus finanzas personales. Tener tus números bajo control te da una seguridad que se transmite sin palabras.",
+                verse: "El hombre prudente ve el mal y se esconde; mas los simples pasan y reciben el daño. (Proverbios 22:3)",
+                phase: "Lútea"
+            },
+            16: {
+                state: "El enfoque mental de ella se vuelve interno. Puede estar más callada o analítica.",
+                action: "No asumas que su silencio es por algo que hiciste. Dale espacio sin retirarte emocionalmente. 'Aquí estoy si me necesitas' es la frase clave.",
+                selfCare: "Ve al gimnasio y enfócate en un entrenamiento de alta intensidad. Libera el estrés antes de llegar a casa.",
+                verse: "Mejor es el que tarda en airarse que el fuerte; y el que se enseñorea de su espíritu, que el que toma una ciudad. (Proverbios 16:32)",
+                phase: "Lútea"
+            },
+            17: {
+                state: "Los cambios químicos pueden empezar a generar retención de líquidos o pesadez física. Su paciencia disminuye.",
+                action: "No muerdas el anzuelo. Si lanza un comentario crítico, respira y no respondas con otra crítica. Sé el adulto en la habitación.",
+                selfCare: "Lee un libro de crecimiento personal o espiritual por 15 minutos. Fortalece tu intelecto.",
+                verse: "La cordura del hombre detiene su furor, y su honra es pasar por alto la ofensa. (Proverbios 19:11)",
+                phase: "Lútea"
+            },
+            18: {
+                state: "Puede empezar a dudar de sí misma o sentirse insegura.",
+                action: "Reafirma tu compromiso. Un gesto pequeño de aprecio (una nota, un detalle) tiene un valor doble hoy.",
+                selfCare: "Sal a caminar 30 minutos a paso rápido. Mantén tu circulación y tu mente despejadas.",
+                verse: "Yahveh es mi luz y mi salvación; ¿de quién temeré? Yahveh es la fortaleza de mi vida; ¿de quién he de atemorizarme? (Salmo 27:1)",
+                phase: "Lútea"
+            },
+            19: {
+                state: "La progesterona está alta, lo que a veces genera ansiedad o irritabilidad sin causa aparente.",
+                action: "Si hay tensión, aplica el silencio estratégico. No intentes 'arreglarla' ni decirle que está exagerando. Solo escucha.",
+                selfCare: "Organiza tu espacio de trabajo o tus herramientas. El orden externo genera orden interno.",
+                verse: "Aun el necio, cuando calla, es contado por sabio; el que cierra sus labios es entendido. (Proverbios 17:28)",
+                phase: "Lútea"
+            },
+            20: {
+                state: "Fase lútea media. La sensibilidad a los errores (tuyos o de ella) es máxima.",
+                action: "Evita temas espinosos. Si ella inicia una queja, valida su sentimiento: 'Entiendo que eso te frustre'. No debatas la lógica, valida la emoción.",
+                selfCare: "Entrenamiento de fuerza. Necesitas sentir tu propia fuerza para no dejarte abatir por el clima emocional del hogar.",
+                verse: "No te dejes vencer por lo malo, sino vence con el bien el mal. (Romanos 12:21)",
+                phase: "Lútea"
+            },
+            21: {
+                state: "Se acerca el descenso hormonal fuerte. Es el día donde suelen aparecer los malentendidos más grandes.",
+                action: "Protocolo de paciencia extrema. Si ella está distante, déjala ser. No presiones. Tu presencia tranquila es tu mejor aporte.",
+                selfCare: "Medita en tu propósito como esposo bajo el orden de Yahveh. Eres el protector del hogar, incluso del clima emocional.",
+                verse: "Sea vuestra palabra siempre con gracia, sazonada con sal, para que sepáis cómo debéis responder a cada uno. (Colosenses 4:6)",
+                phase: "Lútea"
+            },
+            22: {
+                state: "La serotonina cae. Es probable que tenga antojos de azúcar o carbohidratos y se sienta hinchada.",
+                action: "No comentes nada sobre su cuerpo o su dieta. Si puedes, trae algo que le guste sin que lo pida. El servicio silencioso es tu mejor arma.",
+                selfCare: "Camina 30 minutos. El movimiento constante te ayudará a procesar el cortisol que genera el ambiente tenso.",
+                verse: "El hombre que tiene amigos ha de mostrarse amigo; y amigo hay más unido que un hermano. (Proverbios 18:24)",
+                phase: "Premenstrual"
+            },
+            23: {
+                state: "Cualquier ruido o desorden en casa le molestará el doble. Su umbral del dolor es bajo.",
+                action: "Limpia algo que normalmente no limpias. Quítale una carga de encima. Menos tareas para ella significan menos detonantes de conflicto.",
+                selfCare: "Revisa tus metas de ahorro. Mantener tu enfoque en el futuro te impide perder los papeles en el presente.",
+                verse: "El que guarda su boca y su lengua, su alma guarda de angustias. (Proverbios 21:23)",
+                phase: "Premenstrual"
+            },
+            24: {
+                state: "Síndrome Premenstrual (SPM) en su punto alto. Puede haber llanto o ira sin razón lógica aparente.",
+                action: "Prohibido el sarcasmo. Aunque creas que una broma relajará el ambiente, hoy será tomada como un ataque. Sé literal y amable.",
+                selfCare: "Entrenamiento de fuerza intenso. Quema toda la frustración en las pesas, no en tu hogar.",
+                verse: "Yahveh es mi roca y mi fortaleza, y mi libertador; Dios mío, fortaleza mía, en él confiaré. (Salmo 18:2)",
+                phase: "Premenstrual"
+            },
+            25: {
+                state: "Caída hormonal crítica. El cerebro detecta amenazas por todas partes.",
+                action: "Máximo servicio, mínimas palabras. Si ella inicia una pelea, usa la frase: 'Veo que estás pasándolo mal, ¿cómo puedo ayudarte?'. No te defiendas.",
+                selfCare: "Escucha música que te dé paz o un podcast de formación. Mantén tu frecuencia mental alta.",
+                verse: "Vuestra gentileza sea conocida de todos los hombres. El Señor está cerca. (Filipenses 4:5)",
+                phase: "Premenstrual"
+            },
+            26: {
+                state: "Máxima retención de líquidos y posible insomnio. La falta de descanso la hace estar 'al límite'.",
+                action: "Sé un fantasma servicial. Que todo en la casa funcione perfecto gracias a ti, pero sin que se note tu esfuerzo. No busques reconocimiento hoy.",
+                selfCare: "Sal a caminar solo. Necesitas un momento de soledad para reafirmar tu paciencia.",
+                verse: "El que de vosotros quiera ser el primero, será siervo de todos. (Marcos 10:44)",
+                phase: "Premenstrual"
+            },
+            27: {
+                state: "Agotamiento emocional. Puede sentirse sola o incomprendida aunque estés ahí.",
+                action: "Un abrazo largo (si ella lo permite) sin decir nada. A veces el contacto físico seguro comunica más que mil explicaciones.",
+                selfCare: "Medita en Proverbios. La sabiduría de Yahveh es el manual de operaciones de un hombre real.",
+                verse: "Fortaleceos en el Señor, y en el poder de su fuerza. Vestíos de toda la armadura de Dios. (Efesios 6:10-11)",
+                phase: "Premenstrual"
+            },
+            28: {
+                state: "El ciclo está por reiniciarse. La tensión es máxima justo antes del alivio físico.",
+                action: "Paciencia infinita. Mañana todo será diferente. No tomes ninguna decisión importante sobre tu matrimonio hoy. Espera.",
+                selfCare: "Organiza tu semana entrante. Mantén el control de tu vida mientras el entorno parece caótico.",
+                verse: "Porque un momento dura su ira, pero su favor dura toda la vida. Por la noche durará el lloro, y a la mañana vendrá la alegría. (Salmo 30:5)",
+                phase: "Premenstrual"
+            }
+        };
+        
+        // Calcular fase lunar real
+        function getMoonPhase(date) {
+            const lunarCycle = 29.53058867;
+            const knownNewMoon = new Date(2000, 0, 6, 18, 14);
+            const diff = (date - knownNewMoon) / 1000 / 60 / 60 / 24;
+            const phase = ((diff % lunarCycle) + lunarCycle) % lunarCycle;
+            
+            if (phase < 1.84566) return { emoji: '🌑', name: 'Luna Nueva' };
+            else if (phase < 5.53699) return { emoji: '🌒', name: 'Creciente' };
+            else if (phase < 9.22831) return { emoji: '🌓', name: 'Cuarto Creciente' };
+            else if (phase < 12.91963) return { emoji: '🌔', name: 'Gibosa Creciente' };
+            else if (phase < 16.61096) return { emoji: '🌕', name: 'Luna Llena' };
+            else if (phase < 20.30228) return { emoji: '🌖', name: 'Gibosa Menguante' };
+            else if (phase < 23.99361) return { emoji: '🌗', name: 'Cuarto Menguante' };
+            else if (phase < 27.68493) return { emoji: '🌘', name: 'Menguante' };
+            else return { emoji: '🌑', name: 'Luna Nueva' };
+        }
+        
+        // Obtener color de fase según día
+        function getPhaseColor(day) {
+            if ((day >= 1 && day <= 5) || (day >= 24 && day <= 28)) {
+                return 'phase-red';
+            } else if (day >= 15 && day <= 23) {
+                return 'phase-yellow';
+            } else {
+                return 'phase-green';
+            }
+        }
+        
+        // Iniciar seguimiento
+        function startTracking() {
+            const periodDate = document.getElementById('periodDate').value;
+            const cycleLength = document.getElementById('cycleLength').value;
+            const periodLength = document.getElementById('periodLength').value;
+            
+            if (!periodDate) {
+                alert('Por favor ingresa la fecha del último período');
+                return;
+            }
+            
+            const data = {
+                periodDate,
+                cycleLength,
+                periodLength,
+                startDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('cycleData', JSON.stringify(data));
+            
+            // Solicitar permiso de notificaciones
+            if ('Notification' in window && 'serviceWorker' in navigator) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        scheduleNotification();
+                    }
+                });
+            }
+            
+            loadMainContent();
+        }
+        
+        // Cargar contenido principal
+        function loadMainContent() {
+            const data = JSON.parse(localStorage.getItem('cycleData'));
+            if (!data) {
+                document.getElementById('setupScreen').classList.remove('hidden');
+                document.getElementById('mainContent').classList.add('hidden');
+                return;
+            }
+            
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            
+            // Calcular día actual del ciclo
+            const lastPeriod = new Date(data.periodDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - lastPeriod);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const currentDay = ((diffDays - 1) % parseInt(data.cycleLength)) + 1;
+            
+            // Obtener datos del día actual (máximo día 28)
+            const dayData = cycleData[Math.min(currentDay, 28)] || cycleData[28];
+            
+            // Actualizar contenido
+            document.getElementById('dayBadge').textContent = `Día ${currentDay}`;
+            document.getElementById('herState').textContent = dayData.state;
+            document.getElementById('actionDay').textContent = dayData.action;
+            document.getElementById('selfCare').textContent = dayData.selfCare;
+            document.getElementById('verse').textContent = dayData.verse;
+            
+            // Fase lunar
+            const moon = getMoonPhase(today);
+            document.getElementById('moonPhase').textContent = moon.emoji;
+            document.getElementById('phaseName').textContent = moon.name;
+            
+            // Color de fase
+            const phaseIndicator = document.getElementById('phaseIndicator');
+            phaseIndicator.className = 'phase-indicator ' + getPhaseColor(currentDay);
+            
+            // Mostrar felicitación si completó el ciclo
+            if (currentDay === 1 && diffDays > parseInt(data.cycleLength)) {
+                showCongrats();
+            }
+        }
+        
+        // Mostrar mensaje de atención
+        function showAttention() {
+            const data = JSON.parse(localStorage.getItem('cycleData'));
+            const lastPeriod = new Date(data.periodDate);
+            const today = new Date();
+            
+            let html = '<div style="margin-top: 20px;">';
+            
+            // Mostrar próximos días críticos
+            for (let i = 22; i <= 28; i++) {
+                const targetDate = new Date(lastPeriod);
+                targetDate.setDate(lastPeriod.getDate() + i - 1);
+                
+                if (targetDate >= today) {
+                    const dayData = cycleData[i];
+                    const dateStr = targetDate.toLocaleDateString('es-ES', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    
+                    html += `
+                        <div style="background: #fff5f5; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #e53e3e;">
+                            <strong style="color: #e53e3e;">Día ${i} - ${dateStr}</strong>
+                            <p style="margin-top: 8px; color: #4a5568; font-size: 14px;">${dayData.state}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            html += `
+                <div style="background: #fffaf0; padding: 15px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #ed8936;">
+                    <strong>💡 Protocolo de Contención de Daños:</strong>
+                    <p style="margin-top: 8px; color: #4a5568; font-size: 14px;">
+                        Bro, detente ahora mismo. No muerdas el anzuelo. No intentes ganar la discusión. 
+                        Sal de la habitación si es necesario, respira y mantén el dominio propio.
+                    </p>
+                    <p style="margin-top: 8px; color: #5a4a2a; font-style: italic; font-size: 13px;">
+                        "El hombre iracundo levanta contiendas; mas el que tarda en airarse apacigua la rencilla." (Proverbios 15:18)
+                    </p>
+                </div>
+            `;
+            
+            html += '</div>';
+            
+            document.getElementById('attentionContent').innerHTML = html;
+            document.getElementById('attentionModal').style.display = 'block';
+        }
+        
+        // Mostrar guía de instalación
+        function showInstallGuide() {
+            document.getElementById('installModal').style.display = 'block';
+        }
+        
+        // Cerrar modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Reiniciar ciclo
+        function resetCycle() {
+            if (confirm('¿Estás seguro de que quieres reiniciar el ciclo? Esto borrará los datos actuales.')) {
+                localStorage.removeItem('cycleData');
+                location.reload();
+            }
+        }
+        
+        // Mostrar felicitación
+        function showCongrats() {
+            const congratsHtml = `
+                <div class="congrats">
+                    <h2>🎉 ¡Felicidades, Guerrero!</h2>
+                    <p style="margin-top: 10px; font-size: 16px;">
+                        Has navegado un mes más con dominio propio. Has protegido tu matrimonio 
+                        siendo el hombre que Yahveh diseñó. ¡Sigue firme!
+                    </p>
+                    <p style="margin-top: 15px; font-style: italic; font-size: 14px;">
+                        "Bien, buen siervo y fiel; sobre poco has sido fiel, sobre mucho te pondré." (Mateo 25:23)
+                    </p>
+                </div>
+            `;
+            
+            const mainContent = document.getElementById('mainContent');
+            mainContent.insertAdjacentHTML('afterbegin', congratsHtml);
+        }
+        
+        // Programar notificación diaria
+        function scheduleNotification() {
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                navigator.serviceWorker.ready.then(registration => {
+                    // Aquí iría la lógica de notificaciones push reales
+                    // Por ahora solo mostramos una notificación de prueba
+                    showDailyNotification();
+                });
+            }
+        }
+        
+        // Mostrar notificación diaria
+        function showDailyNotification() {
+            const data = JSON.parse(localStorage.getItem('cycleData'));
+            if (!data) return;
+            
+            const lastPeriod = new Date(data.periodDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - lastPeriod);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const currentDay = ((diffDays - 1) % parseInt(data.cycleLength)) + 1;
+            
+            const dayData = cycleData[Math.min(currentDay, 28)] || cycleData[28];
+            
+            if (Notification.permission === 'granted') {
+                new Notification('Salvando el Matrimonio', {
+                    body: `Día ${currentDay}: ${dayData.action.substring(0, 100)}...`,
+                    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+                    badge: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+                });
+            }
+        }
+        
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', (event) => {
+                    self.skipWaiting();
+                });
+                
+                self.addEventListener('activate', (event) => {
+                    event.waitUntil(clients.claim());
+                });
+                
+                self.addEventListener('notificationclick', (event) => {
+                    event.notification.close();
+                    event.waitUntil(
+                        clients.openWindow('/')
+                    );
+                });
+            `;
+            
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            
+            navigator.serviceWorker.register(swUrl).then(registration => {
+                console.log('Service Worker registrado');
+                
+                // Programar notificación diaria
+                setInterval(() => {
+                    const now = new Date();
+                    if (now.getHours() === 9 && now.getMinutes() === 0) {
+                        showDailyNotification();
+                    }
+                }, 60000); // Revisar cada minuto
+            });
+        }
+        
+        // Manifest
+        const manifestData = {
+            name: 'Salvando el Matrimonio',
+            short_name: 'Salvando Matrimonio',
+            description: 'Guía diaria para fortalecer tu relación',
+            start_url: '.',
+            display: 'standalone',
+            background_color: '#1a365d',
+            theme_color: '#1a365d',
+            icons: [
+                {
+                    src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+                    sizes: '192x192',
+                    type: 'image/png'
+                },
+                {
+                    src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+                    sizes: '512x512',
+                    type: 'image/png'
+                }
+            ]
+        };
+        
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        document.getElementById('manifest-placeholder').setAttribute('href', manifestURL);
+        
+        // Cargar al inicio
+        window.addEventListener('load', () => {
+            loadMainContent();
+        });
+    </script>
+</body>
+</html>
